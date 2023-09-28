@@ -5,26 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="crud-item-api",
+ *     version="1.0.0",
+ *     description="Это пример API для управления элементами. API предоставляет методы для создания, обновления, получения и удаления элементов",
+ *     @OA\Contact(
+ *         email="heturion@gmail.com"
+ *     )
+ * )
+ */
 class ItemController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/items",
+     *     summary="Создать новый элемент",
+     *     tags={"Items"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", maxLength=255),
+     *             @OA\Property(property="phone", type="string", maxLength=15),
+     *             @OA\Property(property="key", type="string", maxLength=25),
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Элемент успешно создан"),
+     * )
      */
     public function store(Request $request)
     {
@@ -49,7 +56,20 @@ class ItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/items/{id}",
+     *     summary="Получить информацию о элементе",
+     *     tags={"Items"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Идентификатор элемента",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Информация о элементе"),
+     *     @OA\Response(response=404, description="Элемент не найден"),
+     * )
      */
     public function show(string $id)
     {
@@ -65,15 +85,28 @@ class ItemController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/items/{id}",
+     *     summary="Обновить элемент",
+     *     tags={"Items"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Идентификатор элемента",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", maxLength=255),
+     *             @OA\Property(property="phone", type="string", maxLength=15),
+     *             @OA\Property(property="key", type="string", maxLength=25),
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Элемент успешно обновлен"),
+     *     @OA\Response(response=404, description="Элемент не найден"),
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -109,7 +142,20 @@ class ItemController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/items/{id}",
+     *     summary="Удалить элемент",
+     *     tags={"Items"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Идентификатор элемента",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Элемент успешно удален"),
+     *     @OA\Response(response=404, description="Элемент не найден"),
+     * )
      */
     public function destroy(string $id)
     {
